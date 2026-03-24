@@ -7,11 +7,15 @@
   <meta name="description" content="Freelance frontend developer specializing in Vue.js, React, and website performance improvements.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="ambient-glow" id="ambient-glow" aria-hidden="true"></div>
+  <div class="noise-layer" aria-hidden="true"></div>
   <header class="header">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
     <nav class="container nav">
       <a href="#" class="nav-logo">OS</a>
       <div class="nav-right">
@@ -40,29 +44,39 @@
   <main>
     <section class="hero">
       <div class="hero-bg"></div>
-      <div class="container">
-        <p class="hero-greeting" data-i18n="hero.greeting">Hi, I'm</p>
-        <h1 class="hero-name">Oleksandr Savostian</h1>
-        <p class="hero-title" data-i18n="hero.title">Frontend Developer</p>
-        <p class="hero-subtitle" data-i18n="hero.subtitle">I help businesses fix, improve and maintain their websites.</p>
-        <ul class="hero-checklist">
-          <li data-i18n="hero.check1">Website fixes and bug repairs</li>
-          <li data-i18n="hero.check2">Performance and speed improvements</li>
-          <li data-i18n="hero.check3">Ongoing website maintenance</li>
-        </ul>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary" data-i18n="hero.cta_contact">Contact me</a>
-          <a href="#services" class="btn btn-secondary" data-i18n="hero.cta_services">View services</a>
+      <div class="container hero-layout">
+        <div class="hero-copy hero-animate">
+          <p class="hero-greeting" data-i18n="hero.greeting">Hi, I'm</p>
+          <h1 class="hero-name"><span class="hero-name-gradient">Oleksandr Savostian</span></h1>
+          <p class="hero-title" data-i18n="hero.title">Frontend Developer</p>
+          <p class="hero-subtitle" data-i18n="hero.subtitle">I help businesses fix, improve and maintain their websites.</p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary" data-i18n="hero.cta_contact">Contact me</a>
+            <a href="#services" class="btn btn-secondary" data-i18n="hero.cta_services">View services</a>
+          </div>
+        </div>
+        <div class="hero-scene" aria-hidden="true">
+          <div class="hero-orbit-scene">
+            <div class="hero-stars"></div>
+            <div class="hero-ring hero-ring--back"></div>
+            <div class="hero-ring hero-ring--front"></div>
+            <div class="hero-planet">
+              <div class="hero-planet-crescent"></div>
+            </div>
+            <div class="hero-orbit-arm hero-orbit-arm--a"><span class="hero-moon"></span></div>
+            <div class="hero-orbit-arm hero-orbit-arm--b"><span class="hero-moon hero-moon--sm"></span></div>
+            <div class="hero-orbit-arm hero-orbit-arm--c"><span class="hero-moon hero-moon--cyan"></span></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="problems" class="problems">
+    <section id="problems" class="problems reveal">
       <div class="container">
         <div class="section-header section-header--center">
           <h2 class="section-title" data-i18n="problems.title">Common website problems I fix</h2>
         </div>
-        <div class="problems-grid">
+        <div class="problems-grid stagger-grid">
           <article class="card">
             <div class="card-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -112,27 +126,16 @@
             <h3 class="card-title" data-i18n="problems.content_title">Hard to update content</h3>
             <p class="card-text" data-i18n="problems.content_text">Small changes require too much time or technical knowledge.</p>
           </article>
-          <article class="card">
-            <div class="card-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10"/>
-                <line x1="12" y1="20" x2="12" y2="4"/>
-                <line x1="6" y1="20" x2="6" y2="14"/>
-              </svg>
-            </div>
-            <h3 class="card-title" data-i18n="problems.ux_title">Poor performance and UX</h3>
-            <p class="card-text" data-i18n="problems.ux_text">Slow pages reduce conversions and frustrate visitors.</p>
-          </article>
         </div>
       </div>
     </section>
 
-    <section id="services" class="services">
+    <section id="services" class="services reveal">
       <div class="container">
         <div class="section-header">
           <h2 class="section-title" data-i18n="services.title">Services</h2>
         </div>
-        <div class="services-grid">
+        <div class="services-grid stagger-grid">
           <article class="card">
             <div class="card-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -165,13 +168,13 @@
       </div>
     </section>
 
-    <section id="how" class="how">
+    <section id="how" class="how reveal">
       <div class="container">
         <div class="section-header section-header--center">
           <h2 class="section-title" data-i18n="how.title">How it works</h2>
           <p class="section-subtitle" data-i18n="how.subtitle">Three simple steps to get your website in shape.</p>
         </div>
-        <div class="how-grid">
+        <div class="how-grid stagger-grid">
           <div class="how-step">
             <div class="how-number">1</div>
             <h3 class="how-step-title" data-i18n="how.step1_title">Send me your website</h3>
@@ -191,41 +194,38 @@
       </div>
     </section>
 
-    <section id="about" class="about">
+    <section id="about" class="about reveal">
       <div class="container">
         <h2 class="section-title" data-i18n="about.title">About</h2>
         <div class="about-content">
-          <p data-i18n="about.p1">Frontend developer with experience building and maintaining modern web applications. I specialize in Vue.js, React and website performance improvements.</p>
-          <p data-i18n="about.p2">I work with businesses of all sizes to deliver clean, fast and reliable web experiences. Whether it's a quick fix or a long-term collaboration — I'm here to help.</p>
+          <p data-i18n="about.p1">I’m a frontend developer you can loop in for fixes, speed work, and ongoing care. Vue and React are my usual stack — I keep copy short and solutions practical.</p>
         </div>
       </div>
     </section>
 
-    <section id="audit" class="audit">
+    <section id="audit" class="audit reveal">
       <div class="container">
         <div class="audit-layout">
           <div class="audit-content">
             <h2 class="section-title" data-i18n="audit.title">Free Website Audit</h2>
-            <p class="audit-text" data-i18n="audit.text">Send me your website URL and I'll review it for performance issues, accessibility problems and opportunities to improve. You'll receive a short report with actionable suggestions — completely free, no strings attached.</p>
+            <p class="audit-text" data-i18n="audit.text">I'll skim your site and email a one-page summary: main issues and what to tackle first. Free — if it’s a fit, we can talk after you’ve read it.</p>
             <a href="mailto:oleksandrsavostian@gmail.com?subject=Website%20Audit%20Request" class="btn btn-primary" data-i18n="audit.cta">Request audit</a>
           </div>
           <ul class="audit-checklist">
-            <li data-i18n="audit.check1">Page speed analysis</li>
-            <li data-i18n="audit.check2">Mobile usability check</li>
-            <li data-i18n="audit.check3">Technical issues review</li>
-            <li data-i18n="audit.check4">Performance improvement suggestions</li>
+            <li data-i18n="audit.check1">Prioritized findings — not a generic checklist</li>
+            <li data-i18n="audit.check2">Next steps you can act on, with or without me</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section id="pricing" class="pricing">
+    <section id="pricing" class="pricing reveal">
       <div class="container container-wide">
         <div class="section-header section-header--center">
           <h2 class="section-title" data-i18n="pricing.title">Website Maintenance Plans</h2>
           <p class="section-subtitle" data-i18n="pricing.subtitle">Simple monthly plans to keep your website fast, secure and up to date.</p>
         </div>
-        <div class="pricing-grid">
+        <div class="pricing-grid stagger-grid">
           <article class="pricing-card">
             <h3 class="pricing-plan" data-i18n="pricing.starter_name">Starter</h3>
             <div class="pricing-price">50€<span data-i18n="pricing.per_month"> / month</span></div>
@@ -278,7 +278,7 @@
       </div>
     </section>
 
-    <section id="contact" class="contact">
+    <section id="contact" class="contact reveal">
       <div class="container">
         <div class="section-header section-header--center">
           <h2 class="section-title" data-i18n="contact.form_title">Contact me</h2>
@@ -325,9 +325,6 @@
             <span class="contact-card-value">linkedin.com/in/savostian</span>
           </a>
         </div>
-        <div class="contact-cta">
-          <a href="mailto:oleksandrsavostian@gmail.com" class="btn btn-primary btn-lg" data-i18n="contact.cta">Send me an email</a>
-        </div>
       </div>
     </section>
   </main>
@@ -350,9 +347,6 @@
         'hero.greeting': "Hi, I'm",
         'hero.title': 'Frontend Developer',
         'hero.subtitle': 'I help businesses fix, improve and maintain their websites.',
-        'hero.check1': 'Website fixes and bug repairs',
-        'hero.check2': 'Performance and speed improvements',
-        'hero.check3': 'Ongoing website maintenance',
         'hero.cta_contact': 'Contact me',
         'hero.cta_services': 'View services',
         'problems.title': 'Common website problems I fix',
@@ -366,32 +360,27 @@
         'problems.outdated_text': 'Security risks and compatibility problems.',
         'problems.content_title': 'Hard to update content',
         'problems.content_text': 'Small changes require too much time or technical knowledge.',
-        'problems.ux_title': 'Poor performance and UX',
-        'problems.ux_text': 'Slow pages reduce conversions and frustrate visitors.',
         'services.title': 'Services',
         'services.maintenance_title': 'Website Maintenance',
-        'services.maintenance_text': 'Ongoing updates, bug fixes and small improvements for business websites.',
+        'services.maintenance_text': 'Planned updates, fixes, and small content tweaks on an ongoing basis.',
         'services.performance_title': 'Performance Optimization',
-        'services.performance_text': 'Speed improvements, image optimization and better loading times.',
+        'services.performance_text': 'Leaner assets, caching, and front-end tuning so pages load faster.',
         'services.frontend_title': 'Frontend Development',
-        'services.frontend_text': 'Vue.js / React development and UI improvements.',
+        'services.frontend_text': 'Vue / React builds, refactors, and UI work when you need new pieces.',
         'how.title': 'How it works',
         'how.subtitle': 'Three simple steps to get your website in shape.',
         'how.step1_title': 'Send me your website',
         'how.step1_text': 'Share your website URL and describe the problem or improvement you need.',
-        'how.step2_title': 'I review and suggest improvements',
-        'how.step2_text': 'I analyze performance, usability and technical issues.',
-        'how.step3_title': 'We fix the problems',
-        'how.step3_text': 'I fix issues, improve performance or maintain your website monthly.',
+        'how.step2_title': 'You get a clear read',
+        'how.step2_text': 'I summarise what matters, what to fix first, and practical options — without a jargon wall.',
+        'how.step3_title': 'We ship the work',
+        'how.step3_text': 'One-off fixes or retainer hours — pick what fits; details are in the plans below.',
         'about.title': 'About',
-        'about.p1': 'Frontend developer with experience building and maintaining modern web applications. I specialize in Vue.js, React and website performance improvements.',
-        'about.p2': "I work with businesses of all sizes to deliver clean, fast and reliable web experiences. Whether it's a quick fix or a long-term collaboration — I'm here to help.",
+        'about.p1': 'I’m a frontend developer you can loop in for fixes, speed work, and ongoing care. Vue and React are my usual stack — short updates, practical solutions.',
         'audit.title': 'Free Website Audit',
-        'audit.text': "Send me your website URL and I'll review it for performance issues, accessibility problems and opportunities to improve. You'll receive a short report with actionable suggestions — completely free, no strings attached.",
-        'audit.check1': 'Page speed analysis',
-        'audit.check2': 'Mobile usability check',
-        'audit.check3': 'Technical issues review',
-        'audit.check4': 'Performance improvement suggestions',
+        'audit.text': "I'll skim your site and email a one-page summary: main issues and what to tackle first. Free — if it’s a fit, we can talk after you’ve read it.",
+        'audit.check1': 'Prioritized findings — not a generic checklist',
+        'audit.check2': 'Next steps you can act on, with or without me',
         'audit.cta': 'Request audit',
         'pricing.title': 'Website Maintenance Plans',
         'pricing.subtitle': 'Simple monthly plans to keep your website fast, secure and up to date.',
@@ -427,9 +416,8 @@
         'pricing.extra_rate': 'Development rate: 30€ / hour',
         'contact.title': 'Get in touch',
         'contact.text': 'Have a project in mind or need help with your website? Drop me a line.',
-        'contact.cta': 'Send me an email',
         'contact.form_title': 'Contact me',
-        'contact.form_subtitle': 'Send me your website and describe your problem. I will review it and get back to you.',
+        'contact.form_subtitle': 'Use the form — or the email / LinkedIn links right under it.',
         'contact.form_name_label': 'Name',
         'contact.form_email_label': 'Email',
         'contact.form_message_label': 'Message',
@@ -446,9 +434,6 @@
         'hero.greeting': 'Ahoj, som',
         'hero.title': 'Frontend vývojár',
         'hero.subtitle': 'Pomáham firmám opravovať, vylepšovať a udržiavať ich webové stránky.',
-        'hero.check1': 'Opravy webových stránok a chýb',
-        'hero.check2': 'Zlepšenie výkonu a rýchlosti',
-        'hero.check3': 'Priebežná údržba webu',
         'hero.cta_contact': 'Kontaktujte ma',
         'hero.cta_services': 'Zobraziť služby',
         'problems.title': 'Bežné problémy webov, ktoré riešim',
@@ -462,32 +447,27 @@
         'problems.outdated_text': 'Bezpečnostné riziká a problémy s kompatibilitou.',
         'problems.content_title': 'Ťažko sa aktualizuje obsah',
         'problems.content_text': 'Malé zmeny vyžadujú príliš veľa času alebo technických znalostí.',
-        'problems.ux_title': 'Slabý výkon a UX',
-        'problems.ux_text': 'Pomalé stránky znižujú konverzie a frustrujú návštevníkov.',
         'services.title': 'Služby',
         'services.maintenance_title': 'Údržba webových stránok',
-        'services.maintenance_text': 'Priebežné aktualizácie, opravy chýb a drobné vylepšenia firemných webov.',
+        'services.maintenance_text': 'Plánované aktualizácie, opravy a drobné zmeny obsahu priebežne.',
         'services.performance_title': 'Optimalizácia výkonu',
-        'services.performance_text': 'Zrýchlenie načítania, optimalizácia obrázkov a lepšie časy odozvy.',
+        'services.performance_text': 'Štíhlejšie súbory, cache a úpravy frontu kvôli rýchlejšiemu načítaniu.',
         'services.frontend_title': 'Frontend vývoj',
-        'services.frontend_text': 'Vývoj v Vue.js / React a vylepšenia používateľského rozhrania.',
+        'services.frontend_text': 'Vue / React: nové časti, refaktory a úpravy rozhrania.',
         'how.title': 'Ako to funguje',
         'how.subtitle': 'Tri jednoduché kroky k lepšiemu webu.',
         'how.step1_title': 'Pošlite mi váš web',
         'how.step1_text': 'Zdieľajte URL vašej stránky a popíšte problém alebo požadované vylepšenie.',
-        'how.step2_title': 'Preskúmam a navrhnem vylepšenia',
-        'how.step2_text': 'Analyzujem výkon, použiteľnosť a technické problémy.',
-        'how.step3_title': 'Opravíme problémy',
-        'how.step3_text': 'Opravím chyby, zlepším výkon alebo budem mesačne udržiavať váš web.',
+        'how.step2_title': 'Dostanete jasný prehľad',
+        'how.step2_text': 'Zhrniem, čo je dôležité, čo riešiť prvé a praktické možnosti — bez zbytočného žargónu.',
+        'how.step3_title': 'Realizujeme prácu',
+        'how.step3_text': 'Jednorazové opravy alebo hodiny v pláne — vyberte si; podrobnosti sú v cenníku nižšie.',
         'about.title': 'O mne',
-        'about.p1': 'Frontend vývojár so skúsenosťami s tvorbou a údržbou moderných webových aplikácií. Špecializujem sa na Vue.js, React a optimalizáciu výkonu webových stránok.',
-        'about.p2': 'Spolupracujem s firmami všetkých veľkostí a dodávam čisté, rýchle a spoľahlivé webové riešenia. Či už ide o rýchlu opravu alebo dlhodobú spoluprácu — som tu, aby som pomohol.',
+        'about.p1': 'Frontend vývojár na opravy, výkon a priebežnú starostlivosť. Vue a React sú môj bežný stack — krátke správy, praktické riešenia.',
         'audit.title': 'Bezplatný audit webu',
-        'audit.text': 'Pošlite mi URL vašej stránky a preskúmam ju z hľadiska výkonu, prístupnosti a možností na zlepšenie. Dostanete krátky report s konkrétnymi návrhmi — úplne zadarmo, bez záväzkov.',
-        'audit.check1': 'Analýza rýchlosti načítania',
-        'audit.check2': 'Kontrola mobilnej použiteľnosti',
-        'audit.check3': 'Preskúmanie technických problémov',
-        'audit.check4': 'Návrhy na zlepšenie výkonu',
+        'audit.text': 'Prebehnem váš web a pošlem jednu stranu: hlavné problémy a čo riešiť prvé. Zadarmo — ak to sedí, dohodneme sa po prečítaní.',
+        'audit.check1': 'Zhrnutie s prioritami — nie generický checklist',
+        'audit.check2': 'Ďalšie kroky, ktoré zvládnete so mnou aj bez mňa',
         'audit.cta': 'Požiadať o audit',
         'pricing.title': 'Plány údržby webových stránok',
         'pricing.subtitle': 'Jednoduché mesačné plány, ktoré udržia váš web rýchly, bezpečný a aktuálny.',
@@ -523,9 +503,8 @@
         'pricing.extra_rate': 'Hodinová sadzba za vývoj: 30€ / hodina',
         'contact.title': 'Kontaktujte ma',
         'contact.text': 'Máte projekt alebo potrebujete pomoc s webom? Napíšte mi.',
-        'contact.cta': 'Napíšte mi e-mail',
         'contact.form_title': 'Kontaktujte ma',
-        'contact.form_subtitle': 'Pošlite mi váš web a popíšte problém. Preskúmam ho a ozvem sa vám.',
+        'contact.form_subtitle': 'Formulár nižšie — alebo e-mail a LinkedIn hneď pod ním.',
         'contact.form_name_label': 'Meno',
         'contact.form_email_label': 'E-mail',
         'contact.form_message_label': 'Správa',
@@ -542,9 +521,6 @@
         'hero.greeting': 'Привіт, я',
         'hero.title': 'Frontend розробник',
         'hero.subtitle': 'Допомагаю бізнесам виправляти, покращувати та підтримувати їхні вебсайти.',
-        'hero.check1': 'Виправлення помилок та багів на сайті',
-        'hero.check2': 'Покращення продуктивності та швидкості',
-        'hero.check3': 'Постійна підтримка вебсайту',
         'hero.cta_contact': "Зв'язатися",
         'hero.cta_services': 'Переглянути послуги',
         'problems.title': 'Типові проблеми сайтів, які я вирішую',
@@ -558,32 +534,27 @@
         'problems.outdated_text': 'Ризики безпеки та проблеми сумісності.',
         'problems.content_title': 'Складно оновлювати контент',
         'problems.content_text': 'Невеликі зміни потребують забагато часу або технічних знань.',
-        'problems.ux_title': 'Погана продуктивність та UX',
-        'problems.ux_text': 'Повільні сторінки знижують конверсії та дратують відвідувачів.',
         'services.title': 'Послуги',
         'services.maintenance_title': 'Підтримка вебсайтів',
-        'services.maintenance_text': 'Регулярні оновлення, виправлення помилок та невеликі покращення бізнес-сайтів.',
+        'services.maintenance_text': 'Заплановані оновлення, виправлення та дрібні правки контенту на постійній основі.',
         'services.performance_title': 'Оптимізація продуктивності',
-        'services.performance_text': 'Прискорення завантаження, оптимізація зображень та покращення швидкості.',
+        'services.performance_text': 'Легші ресурси, кеш і налаштування фронту для швидшого завантаження.',
         'services.frontend_title': 'Frontend розробка',
-        'services.frontend_text': 'Розробка на Vue.js / React та покращення інтерфейсів.',
+        'services.frontend_text': 'Vue / React: нові частини, рефакторинг і доробка інтерфейсу.',
         'how.title': 'Як це працює',
         'how.subtitle': 'Три прості кроки до покращення вашого сайту.',
         'how.step1_title': 'Надішліть мені ваш сайт',
         'how.step1_text': 'Поділіться URL вашого сайту та опишіть проблему або потрібне покращення.',
-        'how.step2_title': 'Я аналізую та пропоную покращення',
-        'how.step2_text': 'Аналізую продуктивність, зручність та технічні проблеми.',
-        'how.step3_title': 'Виправляємо проблеми',
-        'how.step3_text': 'Виправляю помилки, покращую продуктивність або щомісячно підтримую ваш сайт.',
+        'how.step2_title': 'Отримуєте зрозумілий висновок',
+        'how.step2_text': 'Коротко: що важливо, що робити першим і які є варіанти — без зайвого жаргону.',
+        'how.step3_title': 'Робота в продакшені',
+        'how.step3_text': 'Разові правки або години за тарифом — оберіть формат; деталі в блоку цін нижче.',
         'about.title': 'Про мене',
-        'about.p1': 'Frontend розробник з досвідом створення та підтримки сучасних вебзастосунків. Спеціалізуюся на Vue.js, React та оптимізації продуктивності вебсайтів.',
-        'about.p2': 'Працюю з бізнесами будь-якого розміру, створюючи чисті, швидкі та надійні вебрішення. Чи то швидке виправлення, чи довгострокова співпраця — я тут, щоб допомогти.',
+        'about.p1': 'Frontend-розробник для правок, швидкості та супроводу. Зазвичай Vue й React — коротко по суті, без зайвих презентацій.',
         'audit.title': 'Безкоштовний аудит сайту',
-        'audit.text': 'Надішліть мені URL вашого сайту, і я перевірю його на продуктивність, доступність та можливості для покращення. Ви отримаєте короткий звіт з конкретними рекомендаціями — абсолютно безкоштовно, без зобов\'язань.',
-        'audit.check1': 'Аналіз швидкості завантаження',
-        'audit.check2': 'Перевірка мобільної зручності',
-        'audit.check3': 'Огляд технічних проблем',
-        'audit.check4': 'Рекомендації щодо покращення продуктивності',
+        'audit.text': 'Перегляну сайт і надішлю на одну сторінку: головні проблеми та з чого почати. Безкоштовно — якщо підходимо, поговоримо після прочитання.',
+        'audit.check1': 'Пріоритети, а не загальний чеклист',
+        'audit.check2': 'Наступні кроки, які можна зробити зі мною чи самостійно',
         'audit.cta': 'Замовити аудит',
         'pricing.title': 'Плани підтримки вебсайтів',
         'pricing.subtitle': 'Прості щомісячні плани, щоб ваш сайт був швидким, безпечним та актуальним.',
@@ -619,9 +590,8 @@
         'pricing.extra_rate': 'Ставка за розробку: 30€ / година',
         'contact.title': "Зв'яжіться зі мною",
         'contact.text': 'Маєте проєкт або потрібна допомога з вебсайтом? Напишіть мені.',
-        'contact.cta': 'Написати листа',
         'contact.form_title': "Зв'яжіться зі мною",
-        'contact.form_subtitle': 'Надішліть посилання на сайт та опишіть проблему. Я перегляну та відповім.',
+        'contact.form_subtitle': 'Форма нижче — або пошта й LinkedIn одразу під нею.',
         'contact.form_name_label': "Ім'я",
         'contact.form_email_label': 'Email',
         'contact.form_message_label': 'Повідомлення',
@@ -699,6 +669,77 @@
 
     const saved = localStorage.getItem('lang');
     setLang(saved && translations[saved] ? saved : 'sk');
+
+    (function motion() {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const glow = document.getElementById('ambient-glow');
+      if (glow && !reduced) {
+        document.addEventListener('pointermove', function(e) {
+          const x = (e.clientX / window.innerWidth) * 100;
+          const y = (e.clientY / window.innerHeight) * 100;
+          glow.style.setProperty('--gx', x + '%');
+          glow.style.setProperty('--gy', y + '%');
+        });
+      }
+      const heroBg = document.querySelector('.hero-bg');
+      if (heroBg && !reduced) {
+        window.addEventListener('scroll', function() {
+          heroBg.style.transform = 'translate3d(0, ' + (window.scrollY * 0.14) + 'px, 0)';
+        }, { passive: true });
+      }
+      if (!reduced) {
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(en) {
+            if (en.isIntersecting) en.target.classList.add('is-visible');
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
+        document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+      } else {
+        document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('is-visible'); });
+      }
+      var progress = document.getElementById('scroll-progress');
+      if (progress) {
+        function updateScrollProgress() {
+          var doc = document.documentElement;
+          var h = doc.scrollHeight - doc.clientHeight;
+          var p = h > 0 ? (doc.scrollTop / h) * 100 : 0;
+          progress.style.setProperty('--scroll-pct', p + '%');
+        }
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+        updateScrollProgress();
+      }
+
+      var hdr = document.querySelector('.header');
+      if (hdr) {
+        function onScrollHdr() {
+          hdr.classList.toggle('header--scrolled', window.scrollY > 24);
+        }
+        window.addEventListener('scroll', onScrollHdr, { passive: true });
+        onScrollHdr();
+      }
+
+      if (!reduced) {
+        function bindTilt(el, strength) {
+          strength = strength == null ? 1 : strength;
+          el.addEventListener('mousemove', function(e) {
+            var r = el.getBoundingClientRect();
+            var x = (e.clientX - r.left) / r.width - 0.5;
+            var y = (e.clientY - r.top) / r.height - 0.5;
+            el.style.setProperty('--tilt-y', (x * -14 * strength) + 'deg');
+            el.style.setProperty('--tilt-x', (y * 14 * strength) + 'deg');
+          });
+          el.addEventListener('mouseleave', function() {
+            el.style.setProperty('--tilt-x', '0deg');
+            el.style.setProperty('--tilt-y', '0deg');
+          });
+        }
+        var heroScene = document.querySelector('.hero-scene');
+        if (heroScene) bindTilt(heroScene, 0.55);
+        document.querySelectorAll('.card').forEach(function(c) { bindTilt(c, 0.65); });
+        document.querySelectorAll('.pricing-card').forEach(function(c) { bindTilt(c, 0.5); });
+        document.querySelectorAll('.contact-card').forEach(function(c) { bindTilt(c, 0.55); });
+      }
+    })();
   </script>
 </body>
 </html>
