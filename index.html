@@ -298,6 +298,11 @@
               <label for="contact-message" class="contact-form-label" data-i18n="contact.form_message_label">Message</label>
               <textarea id="contact-message" name="message" class="contact-form-input contact-form-textarea" rows="5" required></textarea>
             </div>
+            <div class="visually-hidden" aria-hidden="true">
+              <label for="contact-company">Company</label>
+              <input type="text" id="contact-company" name="_gotcha" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" id="contact-ts" name="_ts" value="">
             <p id="contact-form-success" class="contact-form-success" aria-live="polite" hidden data-i18n="contact.form_success">Thanks! I'll get back to you soon.</p>
             <button type="submit" class="btn btn-primary contact-form-btn" data-i18n="contact.form_submit">Send message</button>
           </form>
@@ -422,7 +427,10 @@
         'contact.form_email_label': 'Email',
         'contact.form_message_label': 'Message',
         'contact.form_submit': 'Send message',
-        'contact.form_success': "Thanks! I'll get back to you soon."
+        'contact.form_success': "Thanks! I'll get back to you soon.",
+        'contact.form_slowdown': 'Please wait a moment and try again.',
+        'contact.form_sending': 'Sending…',
+        'contact.form_cooldown': 'Please wait…'
       },
       sk: {
         'nav.services': 'Služby',
@@ -509,7 +517,10 @@
         'contact.form_email_label': 'E-mail',
         'contact.form_message_label': 'Správa',
         'contact.form_submit': 'Odoslať správu',
-        'contact.form_success': 'Ďakujem! Čoskoro sa ozvem.'
+        'contact.form_success': 'Ďakujem! Čoskoro sa ozvem.',
+        'contact.form_slowdown': 'Prosím, chvíľu počkajte a skúste znova.',
+        'contact.form_sending': 'Odosielam…',
+        'contact.form_cooldown': 'Prosím, počkajte…'
       },
       uk: {
         'nav.services': 'Послуги',
@@ -596,7 +607,10 @@
         'contact.form_email_label': 'Email',
         'contact.form_message_label': 'Повідомлення',
         'contact.form_submit': 'Надіслати повідомлення',
-        'contact.form_success': 'Дякую! Скоро відповім.'
+        'contact.form_success': 'Дякую! Скоро відповім.',
+        'contact.form_slowdown': 'Будь ласка, зачекайте трохи та спробуйте ще раз.',
+        'contact.form_sending': 'Надсилаю…',
+        'contact.form_cooldown': 'Будь ласка, зачекайте…'
       }
     };
 
@@ -644,8 +658,72 @@
     const contactForm = document.getElementById('contact-form');
     const contactFormSuccess = document.getElementById('contact-form-success');
     if (contactForm && contactFormSuccess) {
+      const ts = document.getElementById('contact-ts');
+      if (ts) ts.value = String(Date.now());
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const submitBtnDefaultText = submitBtn ? submitBtn.textContent : '';
+      let isSubmitting = false;
+      let cooldownUntil = 0;
+
+      function getT(key, fallback) {
+        const lang = document.documentElement.lang;
+        return (translations[lang] && translations[lang][key]) || fallback;
+      }
+
+      function setSubmitState(state) {
+        if (!submitBtn) return;
+        if (state === 'sending') {
+          submitBtn.disabled = true;
+          submitBtn.textContent = getT('contact.form_sending', 'Sending…');
+          return;
+        }
+        if (state === 'cooldown') {
+          submitBtn.disabled = true;
+          submitBtn.textContent = getT('contact.form_cooldown', 'Please wait…');
+          return;
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitBtnDefaultText;
+      }
+
       contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
+
+        if (isSubmitting) return;
+        const now = Date.now();
+        if (cooldownUntil && now < cooldownUntil) {
+          contactFormSuccess.textContent = getT('contact.form_cooldown', 'Please wait…');
+          contactFormSuccess.hidden = false;
+          contactFormSuccess.setAttribute('data-show', '');
+          setSubmitState('cooldown');
+          return;
+        }
+
+        const gotcha = contactForm.querySelector('input[name="_gotcha"]');
+        if (gotcha && gotcha.value) {
+          contactForm.reset();
+          contactFormSuccess.hidden = false;
+          contactFormSuccess.setAttribute('data-show', '');
+          cooldownUntil = Date.now() + 12000;
+          setSubmitState('cooldown');
+          window.setTimeout(function() { setSubmitState('idle'); }, 12000);
+          return;
+        }
+
+        const sentTs = ts && ts.value ? Number(ts.value) : 0;
+        if (sentTs && Date.now() - sentTs < 2500) {
+          contactFormSuccess.textContent = getT('contact.form_slowdown', 'Please wait a moment and try again.');
+          contactFormSuccess.hidden = false;
+          contactFormSuccess.setAttribute('data-show', '');
+          cooldownUntil = Date.now() + 4000;
+          setSubmitState('cooldown');
+          window.setTimeout(function() { setSubmitState('idle'); }, 4000);
+          return;
+        }
+
+        isSubmitting = true;
+        setSubmitState('sending');
+
         const formData = new FormData(contactForm);
         fetch(contactForm.action, {
           method: 'POST',
@@ -655,8 +733,12 @@
           .then(function(res) {
             if (res.ok) {
               contactForm.reset();
+              if (ts) ts.value = String(Date.now());
               contactFormSuccess.hidden = false;
               contactFormSuccess.setAttribute('data-show', '');
+              cooldownUntil = Date.now() + 12000;
+              setSubmitState('cooldown');
+              window.setTimeout(function() { setSubmitState('idle'); }, 12000);
             } else {
               throw new Error('Submit failed');
             }
@@ -664,6 +746,11 @@
           .catch(function() {
             contactForm.submit();
           });
+
+        window.setTimeout(function() {
+          isSubmitting = false;
+          if (!cooldownUntil || Date.now() >= cooldownUntil) setSubmitState('idle');
+        }, 250);
       });
     }
 
